@@ -1,26 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import Login from './forms/login';
+import Signup from './forms/signup'
+import main from './_css/main.css'
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      auth: false, //this is where you would figure out whether or not there is a token/user etc
+      hasLogin: true
+    }
+  }
+
+  toggleLoginForm = evt => {
+    this.setState({ hasLogin: !this.state.hasLogin})
+  }
+
   render() {
+    const { hasLogin, auth } = this.state
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div className={main.globalStyle}>
+          { auth
+            ? <h1>Is authorized</h1> 
+            : hasLogin
+              ? <Route to='/login' 
+                render={(props) => <Login {...props} toggleLogin={this.toggleLoginForm} />} />
+                
+              : <Route to='/signup' 
+                render= {(props)=> <Signup {...props} toggleLogin={this.toggleLoginForm}/>} />
+          }
+        </div>
+      </Router>
     );
   }
 }

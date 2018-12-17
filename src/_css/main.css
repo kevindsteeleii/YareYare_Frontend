@@ -1,0 +1,30 @@
+.globalStyle {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.entryFormDiv {
+  position: absolute;
+  --form-width: 500px;
+  --form-height: 200px;
+  width: var(--form-width);
+  height: var(--form-height);
+  bottom: calc(50% - calc(var(--form-height)/2));
+  right: calc(50% - calc(var(--form-width)/2));
+  background-color: silver;
+  border-radius: 12px;
+}
+
+.buttonStyle {
+  position: relative;
+  padding: 8px 20px;
+  font-size: 1.3rem;
+  border-radius: 8px;
+}
+
+.submitButton {
+  position: relative;
+  padding: 8px 20px;
+  font-size: 1.3rem;
+  border-radius: 8px;
+}
