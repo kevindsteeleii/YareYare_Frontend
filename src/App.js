@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Login from './forms/login';
-import Signup from './forms/signup'
-import main from './_css/main.css'
+import Signup from './forms/signup';
+import Main from './containers/main'
+import main from './_css/main.css';
 
 class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      auth: false, //this is where you would figure out whether or not there is a token/user etc
       hasLogin: true
     }
   }
@@ -18,18 +19,20 @@ class App extends Component {
   }
 
   render() {
-    const { hasLogin, auth } = this.state
+    const { auth } = this.props
+    const { hasLogin,  } = this.state
     return (
       <Router>
         <div className={main.globalStyle}>
           { auth
-            ? <h1>Is authorized</h1> 
+            ? <Route to='/main'
+           render ={(props) => <Main{...props}/>}/> 
             : hasLogin
               ? <Route to='/login' 
-                render={(props) => <Login {...props} toggleLogin={this.toggleLoginForm} />} />
-                
+                render={(props) => <Login {...props} hasLogin={hasLogin} toggleLogin={this.toggleLoginForm} />} />
+
               : <Route to='/signup' 
-                render= {(props)=> <Signup {...props} toggleLogin={this.toggleLoginForm}/>} />
+                render= {(props)=> <Signup {...props} hasLogin={hasLogin} toggleLogin={this.toggleLoginForm}/>} />
           }
         </div>
       </Router>
@@ -37,4 +40,11 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  const { base } = state
+  return {
+    auth: base.auth
+  }
+}
+
+export default connect(mapStateToProps)(App);
