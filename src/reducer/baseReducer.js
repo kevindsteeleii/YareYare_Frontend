@@ -1,26 +1,35 @@
+import * as _helper from '../actions/_helper';
+
 const initialState = {
   token: localStorage.token || '',
   user: JSON.parse(localStorage.getItem('user')) || {},
-  auth: !! localStorage.token,
+  auth: !! localStorage.token || false,
   formMode: 'NEW',
-  tasks: []
+  tasks: JSON.parse(localStorage.getItem('tasks')) || []
 }
+const states = ['token', 'user', 'auth', 'formMode', 'tasks']
 
 const baseReducer = ( state = initialState, { type, payload } ) => {
   switch ({ type }) {
     case 'LOGIN':
-    case 'SIGNUP': // *DONT-FORGET: The ACTION CREATOR NEEDS to enter the email info to create the new account
-      let auth = !! localStorage.token
-      return {...state, user: JSON.parse(payload.user), token: payload.token, auth}
+    case 'SIGNUP': 
+    let { auth, token, user, tasks } = _helper.getStateAuth()
+      return {...state, user, auth, token}
+    
+    case 'LOGOFF':
+      // _helper.wipeLocalStorage()
+      let copyState = {...state}
+      for (state in states){
+        copyState[state] = _helper.getStateAuth()[state]
+      }
+      return {...copyState}
 
     case 'GET_TASKS': // will probably use this for reloading tasks
-      let tasks = payload // [...payload]
-      return {...state, tasks: payload}
+      tasks = _helper.getStateAuth()['tasks'] // [...payload]
+      return {...state, tasks }
 
     case 'LOAD_TASKS':
-      console.log('\nPayload:\n',payload)
-      tasks = [...payload];
-      return {...state, tasks};
+      return {...state, tasks: payload};
 
     case 'ADD_TASK':
       tasks = [...state.tasks, payload];
@@ -30,9 +39,11 @@ const baseReducer = ( state = initialState, { type, payload } ) => {
       return {...state, formMode: payload}  
   
     default:
-      let token = localStorage.token || '';
-       let user = JSON.parse(localStorage.getItem('user')) || {};
-      return {...state, token, user};
+      copyState = {...state}
+      for (state in states){
+        copyState[state] = _helper.getStateAuth()[state]
+      }
+      return copyState
   }
 }
 

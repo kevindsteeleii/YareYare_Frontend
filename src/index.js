@@ -5,6 +5,7 @@ import App from './App';
 import baseReducer from './reducer/baseReducer';
 import todoFormReducer from './reducer/todoFormReducer';
 import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { combineReducers, applyMiddleware, createStore } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -17,17 +18,13 @@ const rootReducer = combineReducers({
   todo: todoFormReducer
 });
 
-// doesn't work
-// window.addEventListener('close', () => {
-//   localStorage.removeItem('token');
-//   localStorage.removeItem('user');
-// })
-
 const store = createStore(rootReducer, composeWithDevTools(middleware));
 
 ReactDOM.render(
   <Provider store={ store }>
-    <App/>
+    <Router>
+      <Route path='/' component={App}/>
+    </Router>
   </Provider>
   , document.getElementById('root'));
 

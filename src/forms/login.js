@@ -1,10 +1,10 @@
-import BaseForm from './baseForm';
-import React from 'react';
-
-const Login = props => {
+import BaseForm from "./baseForm";
+import React from "react";
+// *NOTE: Login is used for both login and signup probably will need reafactoring later, not gonna lie...
+const Login = (props) => {
 
   return(
-    <BaseForm hasLogin={props.hasLogin} toggleLogin={props.toggleLogin}/>
+    <BaseForm path={props.match.path}/>
   )
 }
 

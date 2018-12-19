@@ -1,5 +1,6 @@
 import * as _adapter from './adapter';
-import { GET_TASKS, CHANGE_FORM_MODE } from './types';
+import * as _helper from './_helper';
+import { GET_TASKS, CHANGE_FORM_MODE, LOGOFF } from './types';
 
 export const loginAndSignup = ( type, userBody) => {
   return (dispatch) => _adapter.loginAndSignUp(type, userBody)
@@ -11,22 +12,23 @@ export const loginAndSignup = ( type, userBody) => {
   })
 }
 
+export const logoff = () => {
+  return (dispatch) => {
+    _helper.wipeLocalStorage();
+    return dispatch({ type: LOGOFF, payload: null })
+  }
+}
+
 export const getTasks = (userId, token) => {
   return (dispatch) => _adapter.getTasks(userId, token)
-  .then(payload => dispatch({ type: GET_TASKS, payload})
-)}
-
-export const _getTasks = (userId, token) => {
-  return (dispatch) => fetch(`http://localhost:3001/tasks/byUser/${userId}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      Accept: 'application/json'
-    }
-  }).then(res => res.json())
   .then(payload => {
-    dispatch({ type: GET_TASKS, payload })
-  }).catch(err => console.log(err))
+    let tasks = [];
+    payload.forEach(task => {
+      tasks.push(task)
+    })
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+    dispatch({ type: GET_TASKS, payload})
+  })
 }
 
 export const changeFormMode = (payload) => {

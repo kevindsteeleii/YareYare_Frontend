@@ -14,8 +14,6 @@ export const loginAndSignUp = (type ,userObj) => fetch(`${AuthURL}/${type.toLowe
 
 export const getTasks = (userId, token) => fetch(`${TasksURL}/byUser/${userId}`,{
   method: 'GET',  
-  // credentials: 'include',
-  // cache: 'force-cache',
   headers: {
     'Authorization': `Bearer ${token}`,
     Accept: 'application/json'
@@ -24,9 +22,3 @@ export const getTasks = (userId, token) => fetch(`${TasksURL}/byUser/${userId}`,
 .catch(err => {
   console.error(err)
 })
-/*{
-	"user": {
-		"username": "testerMan2thetestanithing",
-		"password": "password"
-	}
-} */

@@ -15,8 +15,7 @@ class Main extends Component {
 
   handleLogout = evt => {
     evt.preventDefault();
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    this.props.logoff()
   }
 
   render(){
@@ -42,7 +41,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     getTasks: (userId, token) => dispatch(_actions.getTasks(userId, token)),
-    changeFormMode: (formMode) => dispatch(_actions.changeFormMode(formMode))
+    changeFormMode: (formMode) => dispatch(_actions.changeFormMode(formMode)),
+    logoff: () => dispatch(_actions.logoff())
   }
 }
 
