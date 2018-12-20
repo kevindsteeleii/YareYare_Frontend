@@ -1,10 +1,11 @@
 import { connect } from "react-redux";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Username from "./formComponents/username";
 import Email from "./formComponents/email";
 import Password from "./formComponents/password";
 import LinkButton from "../components/linkButton";
-import * as _actions from "../actions/baseActions"
+import * as _actions from "../actions/baseActions";
 
 class BaseForm extends Component {
 
@@ -16,26 +17,21 @@ class BaseForm extends Component {
 
   // _FIXME: this needs to "Link" to the main protected route, the redirect will work either way b/c of how it's made
 
-  onSubmit = evt => {
-    evt.preventDefault();
-
+  handleSubmit = evt => {
     const { loginAndSignup, path } = this.props;
-    let user = {username: evt.target.username.value, password: evt.target.password.value };
+    const { username, email, password } = this.state;
+    debugger
+    let user = {};
+    if (!!username && !!password) {
+      user = { username, password};
+    }
+    if (!!email){
+      user = {...user, email}
+    }
 
     let type = path === '/login' ? "LOGIN" : "SIGNUP";
 
-    if (evt.target.email){
-      user.email = evt.target.email.value;
-    }
-    
     loginAndSignup(type, user);
-
-    evt.target.username.value = "";
-    evt.target.password.value = "";
-    
-    if (evt.target.email){
-      evt.target.email.value = "";
-    }
   }
   
     onFieldChange = evt => {
@@ -60,7 +56,7 @@ class BaseForm extends Component {
       return (
         <>
           <div className="entryFormDiv">
-          <form onSubmit={this.onSubmit} >
+          <form onSubmit={this.handleSubmit} >
             <div className="entryFormStyle" >
               <Username
               style={{
@@ -86,26 +82,37 @@ class BaseForm extends Component {
                 style={{
                   backgroundColor:"blue",
                   float: "left",
-                  marginLeft: "20px"
+                  marginLeft: "20px",
+                  minWidth: "80px"
                 }}
-              to={path}/>
+              to={path}
+              prefix=""
+              suffix="?"
+              needSlug={false}
+              allCaps={false}
+              name={path.split('/')[1]}
+              />
 
-              <button 
-              value="submit"
-              className="buttonStyle"
-              style={{
-                backgroundColor: "red",
-                color: "white",
-                border: "2.5px solid white",
-                float: "right",
-                marginRight: "20px"
-              }}
+
+              <Link to='/main'
+                onClick={this.handleSubmit}
               >
-                Submit
-              </button>
+                <button 
+                /* value="submit" */
+                className="buttonStyle"
+                style={{
+                  backgroundColor: "red",
+                  color: "white",
+                  border: "2.5px solid white",
+                  float: "right",
+                  marginRight: "20px"
+                }}
+                >
+                  Submit
+                </button>
+              </Link>
           </div> 
           </form>
-            
           </div>
         </>
       )

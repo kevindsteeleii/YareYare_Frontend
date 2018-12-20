@@ -9,7 +9,7 @@ export const loginAndSignup = ( type, userBody) => {
     localStorage.token = token
     localStorage.user = JSON.stringify(user)
     dispatch({ type , payload: { user, token} })
-  })
+  }).catch(err => console.log(err))
 }
 
 export const logoff = () => {
@@ -28,7 +28,7 @@ export const getTasks = (userId, token) => {
     })
     localStorage.setItem('tasks', JSON.stringify(tasks))
     dispatch({ type: GET_TASKS, payload})
-  })
+  }).catch(err => console.log(err))
 }
 
 export const changeFormMode = (payload) => {

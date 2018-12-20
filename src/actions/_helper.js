@@ -1,3 +1,4 @@
+// *NOTE: this is where the helpful stuff goes that may be used in more than one spot
 export const wipeLocalStorage = () => {
   localStorage.removeItem('user');
   localStorage.removeItem('token');
@@ -16,4 +17,8 @@ export const getStateAuth = () => {
 
 export const authRoute = () => {
   return !!localStorage.getItem('token');
+}
+
+export const slugify = (url) => {
+  return url.split("/").join("-")
 }

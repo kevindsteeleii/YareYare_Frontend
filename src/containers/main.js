@@ -1,6 +1,7 @@
-import { connect } from 'react-redux';
-import * as _actions from '../actions/baseActions';
-import React, { Component } from 'react';
+import { connect } from "react-redux";
+import * as _actions from "../actions/baseActions";
+import { Link } from "react-router-dom";
+import React, { Component } from "react";
 
 class Main extends Component {
   state = {
@@ -14,18 +15,22 @@ class Main extends Component {
   }
 
   handleLogout = evt => {
-    evt.preventDefault();
+    // evt.preventDefault();
     this.props.logoff()
   }
 
   render(){
     return (
-      <>
-        Main Page
-        <br/>
-        <button onClick={this.handleTasksLoader}>Get Tasks</button>
-        <button onClick={this.handleLogout}>LogOut</button>
-      </>
+    <>
+    
+      Main Page
+      <br/>
+      <button onClick={this.handleTasksLoader}>Get Tasks</button>
+      <Link to="/login" onClick={this.handleLogout}>
+        <button>LogOut</button>
+      </Link>
+      
+    </>
   )}
 }
 
