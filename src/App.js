@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
+import PrivateRoute from './containers/privateRoute';
+import Login from './forms/login';
+import Signup from './forms/login'; // signup is an illusion a mirror-mirror of the login with some conditional finagling
+import Main from './containers/main';
+import main from './_css/main.css';
 
 class App extends Component {
+
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+    return (<>
+        <div className={main.globalStyle}>
+          <Route path='/login' render={(props)=> <Login {...props}/>} />
+          <Route path='/signup' render={(props)=> <Signup {...props}/>} />
+          <PrivateRoute path='/main' component={Main} />
+        </div>
+      </>
     );
   }
 }
 
-export default App;
+export default connect(null)(App);
